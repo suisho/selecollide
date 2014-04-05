@@ -1,7 +1,7 @@
 {
   "name": "selecollide",
   "version": "0.0.0",
-  "description": "",
+  "description": "Create selector collision map",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
@@ -25,5 +25,16 @@
     "merge": "^1.1.2",
     "mocha": "^1.18.2",
     "uniq": "0.0.2"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/suisho/selecollide.git"
+  },
+  "bugs": {
+    "url": "https://github.com/suisho/selecollide/issues"
+  },
+  "homepage": "https://github.com/suisho/selecollide"
 }
