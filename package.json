@@ -21,7 +21,6 @@
     "sort-specificity": "^0.1.0"
   },
   "devDependencies": {
-    "lodash.union": "^2.4.1",
     "merge": "^1.1.2",
     "mocha": "^1.18.2",
     "uniq": "0.0.2"
