@@ -2,7 +2,7 @@ var selectollid = require("../index")
 var uniq = require("uniq")
 var assert = require("assert")
 describe("", function(){
-  it("", function(){
+  it("useCache", function(){
     var seed = [
       "a",
       "a.foo",
@@ -24,17 +24,7 @@ describe("", function(){
       ".foo.baz#bar a",
     ]
     var a = selectollid(seed)
-    var b = selectollid(seed, {speed :true})
+    var b = selectollid(seed, {useCache :true})
     assert.deepEqual(a,b)
-    return
-    /*Object.keys(result).forEach(function(k){
-      var arr = result[k]
-      var union = []
-      arr.forEach(function(ak){
-        union = union.concat(result[ak])
-      })
-      union = uniq(union).sort()
-      assert.deepEqual(arr.sort(), union, k)
-    })*/
   })
 })
