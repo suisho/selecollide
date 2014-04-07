@@ -45,10 +45,8 @@ module.exports = function(selectors, option){
 }
 var collision = function(sortedSelectors, selector){
   var dom = migawari(selector).dom
-
   var extracted = sortedSelectors.filter(function(s){
     if(selector === s) return false;
-    return (CSSselect.is(dom, s, {strict : true}))
     return (CSSselect.selectOne(s, dom, {strict : true}) !== null)
   })
   return flatten(extracted)
