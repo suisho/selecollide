@@ -20,6 +20,13 @@ describe("", function(){
     }
     assert.deepEqual(expect, seleflict(seed) )
   })
+  it("with comma", function(){
+    var seed = [
+      "a, a.foo, a.foo"
+    ]
+    var expect = { 'a.foo': [ 'a' ], a: [] }
+    assert.deepEqual(expect, seleflict(seed) )
+  })
   it("useCache", function(){
     var seed = [
       "a",
