@@ -1,7 +1,7 @@
 {
-  "name": "selecollide",
+  "name": "seleflict",
   "version": "0.0.0",
-  "description": "Create selector collision map",
+  "description": "Create selector conflict map",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
