@@ -1,7 +1,25 @@
-var selectollid = require("../index")
+var seleflict = require("../index")
 var uniq = require("uniq")
 var assert = require("assert")
 describe("", function(){
+  it("basic", function(){
+    seed = [
+      "a", "a.foo"
+    ]
+    assert.deepEqual(
+      { 'a.foo': [ 'a' ], a: [] },
+      seleflict(seed)
+    )
+  })
+  it("with comma", function(){
+    var seed = [
+      "a, b"
+    ]
+    var expect = {
+      "a" : [],"b":[]
+    }
+    assert.deepEqual(expect, seleflict(seed) )
+  })
   it("useCache", function(){
     var seed = [
       "a",
@@ -23,8 +41,8 @@ describe("", function(){
       ".foo .baz",
       ".foo.baz#bar a",
     ]
-    var a = selectollid(seed)
-    var b = selectollid(seed, {useCache :true})
+    var a = seleflict(seed)
+    var b = seleflict(seed, {useCache :true})
     assert.deepEqual(a,b)
   })
 })
