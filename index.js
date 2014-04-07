@@ -23,9 +23,7 @@ module.exports = function(selectors, option){
   })
   var result = {}
   var cache = {}
-  console.log(selectors)
   selectors = sortSpecificity(selectors)
-  console.log(selectors)
 
   selectors.forEach(function(sel){
     var searchs = selectors
@@ -48,7 +46,6 @@ module.exports = function(selectors, option){
 }
 var collision = function(sortedSelectors, selector){
   var dom = migawari(selector).dom
-  console.log(dom)
   if(dom.length !== 1){
     throw new Error("Invalid selector " + selector)
   }
