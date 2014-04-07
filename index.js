@@ -23,7 +23,10 @@ module.exports = function(selectors, option){
   })
   var result = {}
   var cache = {}
+  console.log(selectors)
   selectors = sortSpecificity(selectors)
+  console.log(selectors)
+
   selectors.forEach(function(sel){
     var searchs = selectors
     if(option.useCache){
@@ -44,10 +47,14 @@ module.exports = function(selectors, option){
   return result
 }
 var collision = function(sortedSelectors, selector){
-  var dom = migawari(selector).dom[0]
+  var dom = migawari(selector).dom
+  console.log(dom)
+  if(dom.length !== 1){
+    throw new Error("Invalid selector " + selector)
+  }
   var extracted = sortedSelectors.filter(function(s){
     if(selector === s) return false;
-    return (CSSselect.is(dom, s, {strict : true}))
+    return (CSSselect.is(dom[0], s, {strict : true}))
   })
   return flatten(extracted)
 }
