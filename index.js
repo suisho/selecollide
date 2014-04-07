@@ -44,10 +44,10 @@ module.exports = function(selectors, option){
   return result
 }
 var collision = function(sortedSelectors, selector){
-  var dom = migawari(selector).dom
+  var dom = migawari(selector).dom[0]
   var extracted = sortedSelectors.filter(function(s){
     if(selector === s) return false;
-    return (CSSselect.selectOne(s, dom, {strict : true}) !== null)
+    return (CSSselect.is(dom, s, {strict : true}))
   })
   return flatten(extracted)
 }
