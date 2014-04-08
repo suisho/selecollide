@@ -24,7 +24,7 @@ Cache.prototype.detect = function(selector, collision, defaults){
   var searchs = cache.map(function(c){
     return collision[c]
   })
-  searchs = flatten(uniq(searchs))
+  searchs = uniq(flatten(searchs))
 
   return searchs
 }
