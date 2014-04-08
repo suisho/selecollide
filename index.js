@@ -5,9 +5,21 @@ var uniq = require('uniq')
 var sortSpecificity = require("sort-specificity")
 var defaults = require("defaults")
 
-var detectSearch = function(selector, caches, collision){
-  var cache = caches[selector]
-  var searchs
+var Cache = function(selectors){
+  this.selectors = selectors
+  this.cache = {}
+}
+
+Cache.prototype.push = function(key, selector){
+  var cache = this.cache[key]
+  if(!cache) cache = [];
+  cache.push(selector)
+  this.cache[key] = cache
+}
+
+Cache.prototype.detect = function(selector, collision){
+  var cache = this.cache[selector]
+  var searchs = this.selectors
   if(cache){
     searchs = cache.map(function(c){
       return collision[c]
@@ -21,25 +33,21 @@ module.exports = function(selectors, option){
   option = defaults(option, {
     useCache : true
   })
-  var result = {}
-  var cache = {}
   selectors = sortSpecificity(selectors)
+  var cache =  new Cache(selectors)
+  var result = {}
 
   selectors.forEach(function(sel){
     var searchs = selectors
     if(option.useCache){
-      var cached = detectSearch(sel, cache, result)
-      if(cached){
-        searches = cached
-      }
+      searchs = cache.detect(sel, result)
     }
     var r = collision(searchs, sel).sort()
     result[sel] = r
 
     // cache
     r.forEach(function(k){
-      if(!cache[k]) cache[k] = [];
-      cache[k].push(sel)
+      cache.push(k, sel)
     })
   })
   return result
