@@ -1,5 +1,4 @@
 var seleflict = require("../index")
-var uniq = require("uniq")
 var assert = require("assert")
 describe("", function(){
   it("basic", function(){
