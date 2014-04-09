@@ -3,9 +3,14 @@ var assert = require("assert")
 
 
 describe("collision", function(){
-  it("", function(){
-    //"a", "a.foo"
-
-    assert.deepEqual(["a", "b"], collision(["a", "b"], "a b"))
+  var isCollide = function(searchs , scapegoat){
+    var result = collision([searchs], scapegoat)
+    return (result[0] == searchs)
+  }
+  it("basic", function(){
+    //console.log(require("migawari")("a b p").toString())
+    assert(isCollide("a", "a b"))
+    assert(isCollide("b", "a b"))
+    assert(isCollide("p", "a b p"))
   })
 })
