@@ -1,9 +1,8 @@
-var migawari = require('migawari')
-var CSSselect = require('CSSselect')
-var flatten = require('flatten')
 var uniq = require('uniq')
 var sortSpecificity = require("sort-specificity")
 var defaults = require("defaults")
+var collision = require("./lib/collision")
+var flatten = require('flatten')
 
 var Cache = function(){
   this.cache = {}
@@ -33,12 +32,12 @@ module.exports = function(selectors, option){
   option = defaults(option, {
     useCache : true
   })
-  selectors = sortSpecificity(selectors)
+  selectors = uniq(sortSpecificity(selectors))
   var cache =  new Cache()
   var result = {}
-
+  var defaultTargets = selectors.concat() // copy
   selectors.forEach(function(sel){
-    var searchs = selectors
+    var searchs = defaultTargets
     if(option.useCache){
       searchs = cache.detect(sel, result, selectors)
     }
@@ -51,15 +50,4 @@ module.exports = function(selectors, option){
     })
   })
   return result
-}
-var collision = function(sortedSelectors, selector){
-  var dom = migawari(selector).dom
-  if(dom.length !== 1){
-    throw new Error("Invalid selector " + selector)
-  }
-  var extracted = sortedSelectors.filter(function(s){
-    if(selector === s) return false;
-    return (CSSselect.is(dom[0], s, {strict : true}))
-  })
-  return flatten(extracted)
 }
