@@ -20,6 +20,10 @@ describe("collision", function(){
   it("universal class and div", function(){
     //assert(!isCollide("div", ".foo")) // Hmmmmm
   })
+  it("dummy div", function(){
+    assert(!isCollide("div", "a b"))
+  })
+
   it("jump elment", function(){
     assert(isCollide("p", "a b p"))
     assert(isCollide("a p", "a b p"))
