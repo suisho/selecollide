@@ -18,4 +18,8 @@ describe("collision", function(){
   it("sibling", function(){
     assert(isCollide("b + p", "a b + p"))
   })
+  it("pseudo", function(){
+    assert(isCollide("a:hover", "a:hover .item"))
+  })
+
 })
