@@ -3,6 +3,7 @@ var sortSpecificity = require("sort-specificity")
 var defaults = require("defaults")
 var collision = require("./lib/collision")
 var flatten = require('flatten')
+var pseudo = require("pseudopseudo")
 
 var Cache = function(){
   this.cache = {}
@@ -28,11 +29,19 @@ Cache.prototype.detect = function(selector, collision, defaults){
   return searchs
 }
 
+
 module.exports = function(selectors, option){
   option = defaults(option, {
     useCache : true
+    pseudoEmulator : pseudo()
   })
-  selectors = uniq(sortSpecificity(selectors))
+  var pseudoEmulator = option.pseudoEmulator
+
+  // fixup search target selectors
+  selectors = uniq(sortSpecificity(selectors)).map(function(selector){
+    return pseudoEmulator.replace(selector)
+  })
+
   var cache =  new Cache()
   var result = {}
   var defaultTargets = selectors.concat() // copy
@@ -46,7 +55,7 @@ module.exports = function(selectors, option){
 
     // cache
     r.forEach(function(k){
-      cache.push(k, sel)
+      cache.push(k, pseudoEmulator.restore(sel))
     })
   })
   return result
