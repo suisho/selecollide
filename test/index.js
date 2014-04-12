@@ -6,7 +6,7 @@ describe("", function(){
       "a", "a.foo"
     ]
     assert.deepEqual(
-      { 'a.foo': [ 'a' ], a: [] },
+      { 'a.foo': [ 'a','a.foo' ], a: ["a"] },
       seleflict(seed)
     )
   })
@@ -15,7 +15,7 @@ describe("", function(){
       "a, b"
     ]
     var expect = {
-      "a" : [],"b":[]
+      "a" : ["a"],"b":["b"]
     }
     assert.deepEqual(expect, seleflict(seed) )
   })
@@ -23,7 +23,7 @@ describe("", function(){
     var seed = [
       "a, a.foo, a.foo"
     ]
-    var expect = { 'a.foo': [ 'a' ], a: [] }
+    var expect = { 'a.foo': [ 'a','a.foo' ], a: ['a'] }
     assert.deepEqual(expect, seleflict(seed) )
   })
   it("useCache", function(){
