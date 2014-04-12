@@ -30,6 +30,11 @@ describe("collision", function(){
     assert(isCollide("p", "a b p"))
     assert(isCollide("a p", "a b p"))
   })
+  it("same selector", function(){
+    assert(isCollide("a b", "a b"))
+    assert(isCollide("b", "b"))
+    assert(isCollide("b + p", "b + p"))
+  })
   it("sibilings", function(){
     assert(!isCollide("b + p", "a b ~ p"))
     assert(isCollide("b ~ p", "a b ~ p"))
