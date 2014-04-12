@@ -17,7 +17,7 @@
     "CSSselect": "^0.7.0",
     "defaults": "^1.0.0",
     "flatten": "0.0.1",
-    "migawari": "^0.2.0",
+    "migawari": "^0.3.0",
     "sort-specificity": "^0.1.1",
     "uniq": "0.0.2"
   },
