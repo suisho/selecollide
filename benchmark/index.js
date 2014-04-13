@@ -1,9 +1,8 @@
 var seleflict = require("../index")
-var fixture = require("./fixture/gh.js")
+var fixture = require("./fixture/tiny.js")
 
 suite("use cache performacnce", function(){
-  set('iterations', 1);
-  var countPatterns = [10,20,30,100,200]
+  var countPatterns = [10,20,30,100]//,200]
   countPatterns.forEach(function(count){
     var seed = fixture.slice(0,count)
     bench("use: " + count, function(done){
