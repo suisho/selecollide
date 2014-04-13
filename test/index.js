@@ -1,32 +1,38 @@
 var seleflict = require("../index")
 var assert = require("assert")
 describe("", function(){
-  it("basic", function(){
+  it("basic", function(done){
     seed = [
       "a", "a.foo"
     ]
-    assert.deepEqual(
-      { 'a.foo': [ 'a','a.foo' ], a: ["a"] },
-      seleflict(seed)
-    )
+    seleflict(seed, function(err, result){
+      assert.deepEqual(result, { 'a.foo': [ 'a','a.foo' ], a: ["a"] })
+      done()
+    })
   })
-  it("with comma", function(){
+  it("with comma", function(done){
     var seed = [
       "a, b"
     ]
     var expect = {
       "a" : ["a"],"b":["b"]
     }
-    assert.deepEqual(expect, seleflict(seed) )
+    seleflict(seed, function(err, result){
+      assert.deepEqual(expect, result)
+      done()
+    })
   })
-  it("with comma", function(){
+  it("with comma", function(done){
     var seed = [
       "a, a.foo, a.foo"
     ]
     var expect = { 'a.foo': [ 'a','a.foo' ], a: ['a'] }
-    assert.deepEqual(expect, seleflict(seed) )
+    seleflict(seed, function(err, result){
+      assert.deepEqual(expect, result)
+      done()
+    })
   })
-  it("useCache", function(){
+  it("useCache", function(done){
     var seed = [
       "a",
       "a.foo",
@@ -47,8 +53,11 @@ describe("", function(){
       ".foo .baz",
       ".foo.baz#bar a",
     ]
-    var a = seleflict(seed)
-    var b = seleflict(seed, {useCache :true})
-    assert.deepEqual(a,b)
+    seleflict(seed, function(err, a){
+      seleflict(seed, {useCache :true}, function(err, b){
+        assert.deepEqual(a,b)
+        done()
+      })
+    })
   })
 })
