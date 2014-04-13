@@ -1,7 +1,9 @@
 var uniq = require('uniq')
 var sortSpecificity = require("sort-specificity")
 var defaults = require("defaults")
-var collision = require("./lib/collision")
+//var collision = require("./lib/collision")
+var collision = require("./lib/collide/reparse")
+var mapping = require("./lib/mapping")
 var flatten = require('flatten')
 
 var Cache = function(){
@@ -41,7 +43,7 @@ module.exports = function(selectors, option){
     if(option.useCache){
       searchs = cache.detect(sel, result, selectors)
     }
-    var r = collision(searchs, sel).sort()
+    var r = mapping(searchs, sel, collision).sort()
     result[sel] = r
 
     // cache
