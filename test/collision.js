@@ -4,6 +4,8 @@ var setupSelector = require("../lib/setup_selector")
 
 var defaultFn = require("../lib/collide/default")
 var reparseFn = require("../lib/collide/reparse")
+var jsdomFn = require("./jsdom_collide")
+
 describe("collision", function(){
   var assertNotCollide = function(target, query){
     _assertCollide(target, query ,true)
@@ -15,10 +17,14 @@ describe("collision", function(){
   var _assertCollide = function(target, query, not){
     var selectorObj = setupSelector(target)
     var results = {}
+    // compabilty check
     var defaults = defaultFn(selectorObj, query)
     var reparse = reparseFn(selectorObj, query)
+    var jsdom = jsdomFn(selectorObj, query)
     assert.equal(defaults, reparse)
+    assert.equal(defaults, jsdom)
 
+    // result check
     if(not){
       assert(!defaults)
     }else{
@@ -26,12 +32,14 @@ describe("collision", function(){
     }
   }
 
-  it("basic", function(){
-    //console.log(require("migawari")("a b p").toString()
-    assertCollide("a b", "a")
-  })
-  it("basic", function(){
-    assertCollide( "a b","b")
+  describe("basic", function(){
+    it("parent", function(){
+      //console.log(require("migawari")("a b p").toString()
+      assertCollide("a b", "a")
+    })
+    it("child", function(){
+      assertCollide( "a b","b")
+    })
   })
   it("class", function(){
     assertCollide("a.foo", ".foo")
