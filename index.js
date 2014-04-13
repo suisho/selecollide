@@ -30,11 +30,16 @@ Cache.prototype.detect = function(selector, collision, defaults){
   return searchs
 }
 
-module.exports = function(selectors, option){
+module.exports = function(selectors, option, cb){
+  if(typeof option == "function" && cb === undefined){
+    cb = option
+    option = undefined
+  }
   option = defaults(option, {
     useCache : true,
     collideFunction : collision
   })
+
   selectors = uniq(sortSpecificity(selectors))
   var cache =  new Cache()
   var result = {}
@@ -52,5 +57,5 @@ module.exports = function(selectors, option){
       cache.push(k, sel)
     })
   })
-  return result
+  cb(null, result)
 }
