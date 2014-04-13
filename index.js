@@ -32,7 +32,8 @@ Cache.prototype.detect = function(selector, collision, defaults){
 
 module.exports = function(selectors, option){
   option = defaults(option, {
-    useCache : true
+    useCache : true,
+    collideFunction : collision
   })
   selectors = uniq(sortSpecificity(selectors))
   var cache =  new Cache()
@@ -43,7 +44,7 @@ module.exports = function(selectors, option){
     if(option.useCache){
       searchs = cache.detect(sel, result, selectors)
     }
-    var r = mapping(searchs, sel, collision).sort()
+    var r = mapping(searchs, sel, option.collideFunction).sort()
     result[sel] = r
 
     // cache

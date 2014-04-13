@@ -1,14 +1,15 @@
-var collision = require("../lib/collision")
 var assert = require("assert")
 var migawari = require("migawari")
 var setupSelector = require("../lib/setup_selector")
-var reparse = require("../lib/collide/reparse")
+
+var defaultFn = require("../lib/collide/default")
+var reparseFn = require("../lib/collide/reparse")
 describe("collision", function(){
   var isCollide = function(query , target){
     var selectorObj = setupSelector(target)
     //console.log(require("util").inspect(selectorObj, {depth:null}))
     //return collision(selectorObj, query)
-    return reparse(selectorObj, query)
+    return reparseFn(selectorObj, query)
   }
 
   it("basic", function(){
