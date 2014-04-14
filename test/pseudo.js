@@ -11,11 +11,14 @@ describe("unit test", function(){
     var restore = pseudo.restore(replacedActual)
     assert.equal(restore, selector)
   }
-  it("replace pseudo", function(){
+  it("pseudo", function(){
     assertion(".foo:active", ".foo.pseudo__colon__active")
   })
-  it("replace function", function(){
+  it("not", function(){
     assertion(".foo:not(.hoge)",".foo__fnc__not__.hoge")
+  })
+  it("nth", function(){
+    assertion("tr:nth-child(3)","tr.__fnc__nth-child__3")
   })
 })
 
@@ -24,7 +27,9 @@ var conbined = [
   '.foo:hoge',
   '@font-face',
   'div:not(.outer) .inner',
-  'audio:not([controls])'
+  'audio:not([controls])',
+  'tr:nth-child(3) ',
+  //'tr:nth-child(2n+1) ', // wait specificity update
 ]
 conbined.forEach(function(selector){
   describe(selector, function(){
@@ -32,10 +37,18 @@ conbined.forEach(function(selector){
       var dummy = pseudoEmulator().replace(selector)
       var beforeSpecify = specificity.calculate(selector)
       var dummySpecify = specificity.calculate(dummy)
-      assert.deepEqual(
-        dummySpecify[0].specificity,
-        beforeSpecify[0].specificity
-      )
+      try{
+        assert.deepEqual(
+          dummySpecify[0].specificity,
+          beforeSpecify[0].specificity
+        )
+      }catch(e){
+        var util = require("util")
+        //debug info
+        console.log(beforeSpecify[0].parts)
+        console.log(dummySpecify[0].parts)
+        throw e
+      }
     })
     it('restore', function(){
       var pseudo = pseudoEmulator()
