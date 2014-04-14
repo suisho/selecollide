@@ -2,15 +2,31 @@ var specificity = require('specificity')
 var pseudoEmulator = require('../lib/pseudo.js')
 var assert = require('assert')
 
-var tests = [
+// unit test
+describe("unit test", function(){
+  var assertion = function(selector, replaced){
+    var pseudo = pseudoEmulator()
+    var replacedActual = pseudo.replace(selector)
+    assert.equal(replaced, replacedActual)
+    var restore = pseudo.restore(replacedActual)
+    assert.equal(restore, selector)
+  }
+  it("replace pseudo", function(){
+    assertion(".foo:active", ".foo.pseudo__colon__active")
+  })
+  it("replace function", function(){
+    assertion(".foo:not(.hoge)",".foo__fnc__not__.hoge")
+  })
+})
+
+// combined test
+var conbined = [
   '.foo:hoge',
   '@font-face',
   'div:not(.outer) .inner',
   'audio:not([controls])'
 ]
-
-
-tests.forEach(function(selector){
+conbined.forEach(function(selector){
   describe(selector, function(){
     it('same specificity', function(){
       var dummy = pseudoEmulator().replace(selector)
