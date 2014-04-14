@@ -4,7 +4,9 @@
   "description": "Create selector conflict map",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "bench" : "matcha",
+    "benchreport" : "matcha -R plain > benchmark/report.txt"
   },
   "keywords": [
     "css",
