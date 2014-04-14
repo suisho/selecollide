@@ -1,7 +1,9 @@
 var uniq = require('uniq')
 var sortSpecificity = require("sort-specificity")
 var defaults = require("defaults")
-var collision = require("./lib/collision")
+//var collision = require("./lib/collision")
+var collision = require("./lib/collide/reparse")
+var mapping = require("./lib/mapping")
 var flatten = require('flatten')
 var pseudo = require("pseudopseudo")
 
@@ -29,15 +31,18 @@ Cache.prototype.detect = function(selector, collision, defaults){
   return searchs
 }
 
-
-module.exports = function(selectors, option){
+module.exports = function(selectors, option, cb){
+  if(typeof option == "function" && cb === undefined){
+    cb = option
+    option = undefined
+  }
   option = defaults(option, {
-    useCache : true
+    useCache : true,
+    collideFunction : collision,
     pseudoEmulator : pseudo()
   })
   var pseudoEmulator = option.pseudoEmulator
 
-  // fixup search target selectors
   selectors = uniq(sortSpecificity(selectors)).map(function(selector){
     return pseudoEmulator.replace(selector)
   })
@@ -50,7 +55,7 @@ module.exports = function(selectors, option){
     if(option.useCache){
       searchs = cache.detect(sel, result, selectors)
     }
-    var r = collision(searchs, sel).sort()
+    var r = mapping(searchs, sel, option.collideFunction).sort()
     result[sel] = r
 
     // cache
@@ -58,5 +63,5 @@ module.exports = function(selectors, option){
       cache.push(k, pseudoEmulator.restore(sel))
     })
   })
-  return result
+  cb(null, result)
 }

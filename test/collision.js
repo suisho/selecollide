@@ -1,50 +1,81 @@
-var collision = require("../lib/collision")
 var assert = require("assert")
 var migawari = require("migawari")
+var setupSelector = require("../lib/setup_selector")
+
+var defaultFn = require("../lib/collide/default")
+var reparseFn = require("../lib/collide/reparse")
+var jsdomFn = require("./jsdom_collide")
 
 describe("collision", function(){
-  var isCollide = function(searchs , target){
-    var result = collision([searchs], target)
-    //console.log(migawari(scapegoat).toString())
-    return (result[0] == searchs)
+  var assertNotCollide = function(target, query){
+    _assertCollide(target, query ,true)
+  }
+  var assertCollide = function(target, query){
+    _assertCollide(target, query)
   }
 
-  it("basic", function(){
-    //console.log(require("migawari")("a b p").toString())
-    assert(isCollide("a", "a b"))
-  })
-  it("basic", function(){
-    assert(isCollide("b", "a b"))
+  var _assertCollide = function(target, query, not){
+    var selectorObj = setupSelector(target)
+    var results = {}
+    // compabilty check
+    var defaults = defaultFn(selectorObj, query)
+    var reparse = reparseFn(selectorObj, query)
+    var jsdom = jsdomFn(selectorObj, query)
+    assert.equal(defaults, reparse)
+    assert.equal(defaults, jsdom)
+
+    // result check
+    if(not){
+      assert(!defaults)
+    }else{
+      assert(defaults)
+    }
+  }
+
+  describe("basic", function(){
+    it("parent", function(){
+      //console.log(require("migawari")("a b p").toString()
+      assertCollide("a b", "a")
+    })
+    it("child", function(){
+      assertCollide( "a b","b")
+    })
   })
   it("class", function(){
-    assert(isCollide(".foo", "a.foo"))
+    assertCollide("a.foo", ".foo")
   })
   it("universal class and div", function(){
-    //assert(!isCollide("div", ".foo")) // Hmmmmm
+    //assertNotCollide("div", ".foo") // Hmmmmm
   })
   it("dummy div", function(){
-    assert(!isCollide("div", "a b"))
+    assertNotCollide("a b", "div")
   })
 
   it("jump elment", function(){
-    assert(isCollide("p", "a b p"))
-    assert(isCollide("a p", "a b p"))
+    assertCollide("a b p", "p" )
+    assertCollide("a b p", "a p")
   })
-  it("same selector", function(){
-    assert(isCollide("a b", "a b"))
-    assert(isCollide("b", "b"))
-    assert(isCollide("b + p", "b + p"))
+  describe("same selector", function(){
+    it("single selector", function(){
+      assertCollide("b", "b")
+    })
+    it("child selector", function(){
+      assertCollide("a > b", "a > b")
+    })
+    it("brother selector", function(){
+      assertCollide("b + p", "b + p")
+    })
   })
   it("sibilings", function(){
-    assert(!isCollide("b + p", "a b ~ p"))
-    assert(isCollide("b ~ p", "a b ~ p"))
+    assertNotCollide("a b ~ p", "b + p")
+    assertCollide("a b ~ p", "b ~ p")
   })
   it("brother", function(){
-    assert(isCollide("b + p", "a b + p"))
-    assert(isCollide("b ~ p", "a b + p"))
+    assertCollide("a b + p", "b + p")
+    assertCollide("a b + p", "b ~ p")
   })
   it("pseudo", function(){
-    assert(isCollide("a:hover", "a:hover .item"))
+    assertCollide("a:hover", "a")
   })
 
 })
