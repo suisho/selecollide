@@ -6,5 +6,6 @@ module.exports = function(obj, query){
   var document = jsdom.jsdom("<html><body>")
   document.body.innerHTML = html
   var selector = document.querySelector(query)
+  
   return (selector !== null)
 }

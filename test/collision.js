@@ -23,7 +23,6 @@ describe("collision", function(){
     var jsdom = jsdomFn(selectorObj, query)
     assert.equal(defaults, reparse)
     assert.equal(defaults, jsdom)
-
     // result check
     if(not){
       assert(!defaults)
@@ -41,12 +40,22 @@ describe("collision", function(){
       assertCollide( "a b","b")
     })
   })
+
   it("class", function(){
     assertCollide("a.foo", ".foo")
   })
+
   it("universal class and div", function(){
-    assertNotCollide("div", ".foo") // Hmmmmm
+    assertNotCollide("div", ".foo")
   })
+
+  it("universal selector (star)", function(){
+    assertCollide("a", "*")
+    assertCollide(".foo", "*")
+    assertCollide("#id", "*")
+    assertCollide("a b", "*")
+  })
+
   it("dummy div", function(){
     assertNotCollide("a b", "div")
   })
