@@ -83,4 +83,8 @@ describe("collision", function(){
     assertCollide("a b + p", "b + p")
     assertCollide("a b + p", "b ~ p")
   })
+  it("pseudo", function(){
+    assertCollide("a:hover", "a")
+  })
+
 })

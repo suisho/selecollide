@@ -5,6 +5,7 @@ var defaults = require("defaults")
 var collision = require("./lib/collide/reparse")
 var mapping = require("./lib/mapping")
 var flatten = require('flatten')
+var pseudo = require("./lib/pseudo")
 
 var Cache = function(){
   this.cache = {}
@@ -37,10 +38,15 @@ module.exports = function(selectors, option, cb){
   }
   option = defaults(option, {
     useCache : true,
-    collideFunction : collision
+    collideFunction : collision,
+    pseudoEmulator : pseudo()
+  })
+  var pseudoEmulator = option.pseudoEmulator
+
+  selectors = uniq(sortSpecificity(selectors)).map(function(selector){
+    return pseudoEmulator.replace(selector)
   })
 
-  selectors = uniq(sortSpecificity(selectors))
   var cache =  new Cache()
   var result = {}
   var defaultTargets = selectors.concat() // copy
@@ -54,7 +60,7 @@ module.exports = function(selectors, option, cb){
 
     // cache
     r.forEach(function(k){
-      cache.push(k, sel)
+      cache.push(k, pseudoEmulator.restore(sel))
     })
   })
   cb(null, result)
