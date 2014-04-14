@@ -5,7 +5,7 @@ var defaults = require("defaults")
 var collision = require("./lib/collide/reparse")
 var mapping = require("./lib/mapping")
 var flatten = require('flatten')
-var pseudo = require("pseudopseudo")
+var pseudo = require("./lib/pseudo")
 
 var Cache = function(){
   this.cache = {}
