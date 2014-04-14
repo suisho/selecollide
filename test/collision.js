@@ -45,7 +45,7 @@ describe("collision", function(){
     assertCollide("a.foo", ".foo")
   })
   it("universal class and div", function(){
-    //assertNotCollide("div", ".foo") // Hmmmmm
+    assertNotCollide("div", ".foo") // Hmmmmm
   })
   it("dummy div", function(){
     assertNotCollide("a b", "div")
