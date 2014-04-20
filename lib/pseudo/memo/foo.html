@@ -1,0 +1,27 @@
+<html>
+<body>
+  <style>
+  div{
+    font-weight :bold;
+  }
+  .foo{
+    color :blue; /*overrided*/
+  }
+  .foo:not(.bar){
+    color :yellow;
+  }
+  .foo.bee{
+    color :orange;
+  }
+
+  .foo{
+    color :red;
+  }
+  /*:not(span){*/
+  :not(span:not(.f)) /* {*/ /* <- これは効く */
+    font-size:200%;
+  }
+  </style>
+  <div class="foo bee">foo</div>
+</body>
+</html>
