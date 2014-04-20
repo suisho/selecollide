@@ -4,9 +4,9 @@
   "description": "Create selector conflict map",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "bench" : "matcha",
-    "benchreport" : "matcha -R plain > benchmark/report.txt"
+    "test": "mocha test/* lib/pseudo/test/*",
+    "bench": "matcha",
+    "benchreport": "matcha -R plain > benchmark/report.txt"
   },
   "keywords": [
     "css",
@@ -41,5 +41,10 @@
   "bugs": {
     "url": "https://github.com/suisho/selecollide/issues"
   },
-  "homepage": "https://github.com/suisho/selecollide"
+  "homepage": "https://github.com/suisho/selecollide",
+  "config": {
+    "blanket": {
+      "pattern": "lib"
+    }
+  }
 }
