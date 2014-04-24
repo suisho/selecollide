@@ -21,6 +21,7 @@
     "flatten": "0.0.1",
     "migawari": "^0.3.0",
     "sort-specificity": "^0.1.1",
+    "specificity": "^0.1.4",
     "uniq": "0.0.2"
   },
   "devDependencies": {
