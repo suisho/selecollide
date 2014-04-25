@@ -39,9 +39,8 @@ module.exports = function(selectors, option, cb){
   option = defaults(option, {
     useCache : true,
     collideFunction : collision,
-    pseudoEmulator : pseudo()
   })
-  var pseudoEmulator = option.pseudoEmulator
+  var pseudoEmulator = pseudo()
 
   selectors = uniq(sortSpecificity(selectors)).map(function(selector){
     return pseudoEmulator.replace(selector)
