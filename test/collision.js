@@ -92,5 +92,8 @@ describe("collision", function(){
       assertCollide("a:not(.div)", "a")
     })
   })
+  it("invert classes", function(){
+    assertCollide(".foo.baz", ".baz.foo")
+  })
 
 })
