@@ -94,6 +94,7 @@ describe("collision", function(){
   })
   it("invert classes", function(){
     assertCollide(".foo.baz", ".baz.foo")
+    assertCollide(".baz.foo", ".foo.baz")
   })
 
 })
